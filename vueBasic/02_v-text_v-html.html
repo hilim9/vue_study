@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-text, v-html</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2 v-html="message"></h2>
+      <!-- v-text, {{}}: innerText 속성에 연결됨. 태그 문자열을 HTML 인코딩하여 나타내기 때문에 화면에는 태그 문자열이 그대로 나타남
+           v-html: innerHTML 속성에 연결됨. 태그 문자열을 파싱하여 화면에 나타냄 -->
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+      var model = { message: "Hello Vue3!" };
+      var vm = Vue.createApp({
+        name: "App",
+        data() {
+          return model;
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
