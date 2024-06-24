@@ -1,0 +1,38 @@
+<!-- Computed Property (계산된 속성)은 기존 데이터를 이용해 읽기 전용의 값을 만들어내기 위해 자주사용하지만
+     읽기(get)만이 아닌 쓰기(set)도 가능하다. -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>04-04</title>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model.number="amt" /><br />
+      금액 : <span>{{amount}}원</span>
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+      var vm = Vue.createApp({
+        name: "App",
+        data() {
+          return { amt: 99999 };
+        },
+        computed: {
+          // get, set 가능
+          amount: {
+            get() {
+              var regexp = /\B(?=(\d{3})+(?!\d))/g;
+              return this.amt.toString().replace(regexp, ",");
+            },
+            set(amount) {
+              var amt = parseInt(amount.replace(/,/g, ""));
+              this.amt = Number.isNaN(amt) ? 0 : amt;
+            },
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

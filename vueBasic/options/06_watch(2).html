@@ -1,0 +1,47 @@
+<!-- watch 속성 사용시 주의사항 
+     관찰 속성이 비동기 처리와 같은 경우에는 장점이 있지만 사용은 자제하는것이 좋다.
+     남용하게 되면
+     1. 의존 관계가 복잡해져서 코드의 실행 흐름을 분석하기가 어려워진다.
+     2. 디버깅이 까다로워진다.
+     그러므로 관찰 속성을 대신하여 메서드 + 이벤트 조합을 사용하는 것을 권장한다. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-09</title>
+  </head>
+  <body>
+    <div id="app">
+      x : <input type="text" v-model.number="values.x" /><br />
+      y : <input type="text" v-model.number="values.y" /><br />
+      덧셈 결과 : {{sum}}
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+      var vm = Vue.createApp({
+        name: "App",
+        data() {
+          return { values: { x: 0, y: 0 }, sum: 0 };
+        },
+        watch: {
+          // values 객체 내부의 x만 변경된 것. values 객체의 메모리 주소가 바뀐건 아님
+          values(current) {
+            var result = Number(current.x) + Number(current.y);
+            if (isNaN(result)) this.sum = 0;
+            else this.sum = result;
+          },
+          // values: { // 깊은비교 (deep compare)를 수행 하도록 변경
+          //   handler: function (current) {
+          //     var result = Number(current.x) + Number(current.y);
+          //     if (isNaN(result)) this.sum = 0;
+          //     else this.sum = result;
+          //   },
+          //   deep: true,
+          // },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
